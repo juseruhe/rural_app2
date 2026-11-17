@@ -1,0 +1,7 @@
+{
+  "name": "rural-app-front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular-standalone"
+}

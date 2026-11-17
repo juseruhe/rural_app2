@@ -1,0 +1,53 @@
+services:
+  mysql-db:
+    image: mysql:8.4
+    container_name: rural-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+      MYSQL_USER: ${DB_USER}
+      MYSQL_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "${DB_PORT}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - rural-network
+
+  rural-app-backend-user:
+    build: ./rural-app-backend-user
+    container_name: rural-app-backend-user
+    restart: on-failure
+    environment:
+      PORT: ${BACKEND_USER_PORT}
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${DB_USER}
+      DB_PASSWORD: ${DB_PASSWORD}
+      DB_NAME: ${DB_NAME}
+    ports:
+      - "${BACKEND_USER_PORT}:3000"
+    depends_on:
+      - mysql-db
+    networks:
+      - rural-network
+
+  rural-app-front:
+    build: ./rural-app-front
+    container_name: rural-app-front
+    ports:
+      - "${FRONT_PORT}:8100"
+    volumes:
+      - ./rural-app-front/src:/app/src
+    depends_on:
+      - rural-app-backend-user
+    networks:
+      - rural-network
+
+volumes:
+  mysql_data:
+
+networks:
+  rural-network:
+    driver: bridge

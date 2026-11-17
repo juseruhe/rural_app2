@@ -1,0 +1,25 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>Registro - Rural App</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-input label="Nombre completo" labelPlacement="floating" formControlName="fullName" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Correo electrónico" labelPlacement="floating" formControlName="email" type="email"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input label="Contraseña" labelPlacement="floating" formControlName="password" type="password"></ion-input>
+    </ion-item>
+
+    <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="registerForm.invalid || isSubmitting">
+      {{ isSubmitting ? 'Registrando...' : 'Crear cuenta' }}
+    </ion-button>
+  </form>
+</ion-content>

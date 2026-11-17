@@ -1,0 +1,6 @@
+/rural-app-backend-user/node_modules
+/rural-app-front/node_modules
+.env
+/rural-app-front/.vscode/*
+/rural-app-front/.DS_Store
+/rural-app-front/Thumbs.db
