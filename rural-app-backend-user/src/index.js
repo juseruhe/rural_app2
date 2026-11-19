@@ -5,12 +5,14 @@ const cors = require('cors');
 
 const app = express();
 
-const cors = require('cors');
 
 // CORS Configuration
 const allowedOrigins = [
     'http://localhost:8100',
-    'http://localhost:4200'
+    'http://localhost:4200',
+    'http://localhost',  
+    'https://localhost',
+    'capacitor://localhost'
 ];
 
 app.use(cors({
@@ -96,4 +98,4 @@ app.post('/api/users/register', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`rural-app-backend-user corriendo en puerto ${PORT}`));
+app.listen(PORT, '0.0.0.0',() => console.log(`rural-app-backend-user corriendo en puerto ${PORT}`));
