@@ -1,83 +1,123 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../services/auth-service';
-import { ToastController } from '@ionic/angular';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { IonButton } from '@ionic/angular/ion-button';
-import { IonItem } from '@ionic/angular/ion-item';
-import {IonInput} from '@ionic/angular/ion-input';
-import { timeout, finalize, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-import {IonContent} from '@ionic/angular/ion-content'; 
-import {IonTitle} from '@ionic/angular/ion-title';
-import {IonHeader} from '@ionic/angular/ion-header';
-import {IonToolbar} from '@ionic/angular/ion-toolbar';
+import {
+  FormBuilder,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import {
+  IonHeader,
+  IonToolbar,
+  IonTitle,
+  IonContent,
+  IonItem,
+  IonInput,
+  IonButton,
+  IonIcon,
+  IonSpinner,
+  IonText,
+  ToastController,
+} from '@ionic/angular';
+import { addIcons } from 'ionicons';
+import {
+  personOutline,
+  mailOutline,
+  lockClosedOutline,
+  leafOutline,
+  checkmarkCircleOutline,
+} from 'ionicons/icons';
+
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-register',
+  standalone: true,
+  imports: [
+    CommonModule,
+    ReactiveFormsModule,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
+    IonItem,
+    IonInput,
+    IonButton,
+    IonIcon,
+    IonSpinner,
+    IonText,
+  ],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.scss'],
-  standalone: true,
-  imports: [ CommonModule, FormsModule, ReactiveFormsModule, IonButton, IonItem, IonInput, IonContent,
-     IonTitle, IonHeader, IonToolbar ],
 })
-export class RegisterComponent implements OnInit {
+export class RegisterComponent {
+  private fb = inject(FormBuilder);
+  private toastCtrl = inject(ToastController);
 
-  registerForm: FormGroup;
   isSubmitting = false;
 
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService,
-    private toastCtrl: ToastController
-  ) {
-    this.registerForm = this.fb.group({
-      fullName: ['', [Validators.required, Validators.minLength(3)]],
-      email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+  registerForm = this.fb.nonNullable.group({
+    fullName: ['', [Validators.required, Validators.minLength(3)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
+
+  public themeService = inject(ThemeService)
+
+  constructor() {
+    addIcons({
+      personOutline,
+      mailOutline,
+      lockClosedOutline,
+      leafOutline,
+      checkmarkCircleOutline,
     });
+  }
+
+  get fullName() {
+    return this.registerForm.controls.fullName;
+  }
+  get email() {
+    return this.registerForm.controls.email;
+  }
+  get password() {
+    return this.registerForm.controls.password;
+  }
+
+    toggleTheme() {
+    // Alterna entre claro y oscuro
+    const nextTheme = this.themeService.theme() === 'dark' ? 'light' : 'dark';
+    this.themeService.setTheme(nextTheme);
   }
 
   async onSubmit() {
-    if (this.registerForm.invalid) return;
+    if (this.registerForm.invalid || this.isSubmitting) return;
+
     this.isSubmitting = true;
 
-    // Log para confirmar que el botón sí dispara la petición
-    console.log('🚀 Iniciando registro...', this.registerForm.value);
+    try {
+      // TODO: reemplaza con tu servicio real (AuthService, etc.)
+      await new Promise((resolve) => setTimeout(resolve, 1200));
 
-    this.authService.register(this.registerForm.value).pipe(
-      timeout(15000), // ⏱️ Si en 15s no hay respuesta, cancela la petición
-      catchError((err) => {
-        console.error('❌ Error de red o timeout:', err);
-        // Si es un timeout o error de red (status 0)
-        if (err.name === 'TimeoutError' || err.status === 0) {
-          return throwError(() => new Error('El servidor no responde. Revisa tu conexión.'));
-        }
-        return throwError(() => err);
-      }),
-      // 🔄 finalize SIEMPRE se ejecuta, haya éxito o error. Apaga el spinner.
-      finalize(() => {
-        this.isSubmitting = false;
-      })
-    ).subscribe({
-      next: async (res) => {
-        console.log('✅ Registro exitoso:', res);
-        this.registerForm.reset();
-        await this.showToast(res.message || 'Registro exitoso', 'success');
-      },
-      error: async (err) => {
-        console.error('🛑 Error final:', err);
-        // Validamos si el error viene de nuestra validación de red o del backend
-        const msg = err.message || err.error?.message || 'No se pudo conectar con el servidor';
-        await this.showToast(msg, 'danger');
-      }
-    });
-  }
-  private async showToast(message: string, color: string) {
-    const toast = await this.toastCtrl.create({ message, duration: 3000, color });
-    await toast.present();
-  }
+      const toast = await this.toastCtrl.create({
+        message: '¡Cuenta creada con éxito!',
+        duration: 2000,
+        color: 'success',
+        position: 'top',
+        icon: 'checkmark-circle-outline',
+      });
+      await toast.present();
 
-  ngOnInit() {}
+      this.registerForm.reset();
+    } catch (error) {
+      const toast = await this.toastCtrl.create({
+        message: 'Ocurrió un error. Intenta de nuevo.',
+        duration: 2500,
+        color: 'danger',
+        position: 'top',
+      });
+      await toast.present();
+    } finally {
+      this.isSubmitting = false;
+    }
+  }
 }

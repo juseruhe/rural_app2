@@ -1,28 +1,30 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Blank </ion-title>
+<ion-header class="ion-no-border">
+  <ion-toolbar class="rural-toolbar">
+    <ion-title>Rural App</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Blank</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <div id="container">
-    <strong>Ready to create an app?</strong>
-    <p>
-      Start with Ionic
-      <a target="_blank" rel="noopener noreferrer" href="https://ionicframework.com/docs/components">UI Components</a>
-    </p>
+<ion-content class="rural-content" [fullscreen]="true">
+  <!-- Aquí va el hero -->
+  <div class="rural-hero">
+    <div class="hero-icon">
+      <ion-icon name="leaf-outline"></ion-icon>
+    </div>
+    <h1>Bienvenido a Rural App</h1>
+    <p>Conecta con el campo, simplifica tu día</p>
   </div>
 
-      <ion-button
-  expand="block"
-  color="primary"
-  (click)="goToRegister()">
-  Registrarse
-</ion-button>
+  <!-- Aquí va la tarjeta -->
+  <div class="rural-card">
+    <h2 class="card-title">¿Listo para comenzar?</h2>
+    <p class="card-text">Crea tu cuenta en segundos y empieza a disfrutar de todas las herramientas que Rural App tiene para ti.</p>
+
+    <ion-button expand="block" class="rural-btn-primary" (click)="goToRegister()">
+      <ion-icon slot="start" name="person-add-outline"></ion-icon>
+      <span>Registrarse</span>
+      <ion-icon slot="end" name="arrow-forward-outline"></ion-icon>
+    </ion-button>
+
+    <p class="hint">¿Ya tienes cuenta? Inicia sesión desde el menú principal.</p>
+  </div>
 </ion-content>

@@ -35,3 +35,26 @@
 /* @import "@ionic/angular/css/palettes/dark.always.css"; */
 /* @import "@ionic/angular/css/palettes/dark.class.css"; */
 @import '@ionic/angular/css/palettes/dark.system.css';
+
+// rural theme
+@import './theme/rural';
+
+/* Tema Claro (Por defecto) */
+:root {
+  --rural-card-bg: #ffffff;
+  --rural-input-bg: #f3f7f1;
+  
+  /* Variables nativas de Ionic para fondo y texto */
+  --ion-background-color: #f3f7f1;
+  --ion-text-color: #1f2d1f;
+}
+
+/* Tema Oscuro - Se aplica cuando el body tiene la clase .dark */
+body.dark {
+  --rural-card-bg: #1a231b;
+  --rural-input-bg: #223024;
+  
+  /* Variables nativas de Ionic para fondo y texto */
+  --ion-background-color: #0f1710;
+  --ion-text-color: #e8f0e8;
+}

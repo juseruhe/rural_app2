@@ -1,25 +1,74 @@
-<ion-header>
-  <ion-toolbar color="primary">
+<ion-header class="ion-no-border">
+  <ion-toolbar class="rural-toolbar">
     <ion-title>Registro - Rural App</ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content class="ion-padding">
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <ion-item>
-      <ion-input label="Nombre completo" labelPlacement="floating" formControlName="fullName" type="text"></ion-input>
-    </ion-item>
+<ion-content class="rural-content" [fullscreen]="true">
+  
+  <!-- Encabezado (Hero) -->
+  <div class="rural-hero">
+    <!-- Botón para cambiar tema -->
+    <div class="theme-selector">
+      <button (click)="toggleTheme()" type="button" aria-label="Cambiar tema">
+        <ion-icon [name]="themeService.theme() === 'dark' ? 'sunny-outline' : 'moon-outline'"></ion-icon>
+      </button>
+    </div>
 
-    <ion-item>
-      <ion-input label="Correo electrónico" labelPlacement="floating" formControlName="email" type="email"></ion-input>
-    </ion-item>
+    <div class="hero-icon">
+      <ion-icon name="leaf-outline"></ion-icon>
+    </div>
+    <h1>Bienvenido a Rural App</h1>
+    <p>Conecta con el campo, simplifica tu día</p>
+  </div>
 
-    <ion-item>
-      <ion-input label="Contraseña" labelPlacement="floating" formControlName="password" type="password"></ion-input>
-    </ion-item>
+  <!-- Tarjeta del formulario -->
+  <div class="rural-card">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" novalidate>
 
-    <ion-button expand="block" type="submit" class="ion-margin-top" [disabled]="registerForm.invalid || isSubmitting">
-      {{ isSubmitting ? 'Registrando...' : 'Crear cuenta' }}
-    </ion-button>
-  </form>
+      <!-- Nombre -->
+      <div class="rural-field">
+        <ion-item lines="none" class="rural-item">
+          <ion-icon slot="start" name="person-outline" class="field-icon"></ion-icon>
+          <ion-input label="Nombre completo" labelPlacement="floating" formControlName="fullName" type="text"></ion-input>
+        </ion-item>
+        <ion-text class="error" *ngIf="fullName.touched && fullName.invalid">
+          <small *ngIf="fullName.errors?.['required']">El nombre es obligatorio.</small>
+          <small *ngIf="fullName.errors?.['minlength']">Mínimo 3 caracteres.</small>
+        </ion-text>
+      </div>
+
+      <!-- Email -->
+      <div class="rural-field">
+        <ion-item lines="none" class="rural-item">
+          <ion-icon slot="start" name="mail-outline" class="field-icon"></ion-icon>
+          <ion-input label="Correo electrónico" labelPlacement="floating" formControlName="email" type="email"></ion-input>
+        </ion-item>
+        <ion-text class="error" *ngIf="email.touched && email.invalid">
+          <small *ngIf="email.errors?.['required']">El correo es obligatorio.</small>
+          <small *ngIf="email.errors?.['email']">Ingresa un correo válido.</small>
+        </ion-text>
+      </div>
+
+      <!-- Password -->
+      <div class="rural-field">
+        <ion-item lines="none" class="rural-item">
+          <ion-icon slot="start" name="lock-closed-outline" class="field-icon"></ion-icon>
+          <ion-input label="Contraseña" labelPlacement="floating" formControlName="password" type="password"></ion-input>
+        </ion-item>
+        <ion-text class="error" *ngIf="password.touched && password.invalid">
+          <small *ngIf="password.errors?.['required']">La contraseña es obligatoria.</small>
+          <small *ngIf="password.errors?.['minlength']">Mínimo 6 caracteres.</small>
+        </ion-text>
+      </div>
+
+      <!-- Botón -->
+      <ion-button expand="block" type="submit" class="rural-btn-primary" [disabled]="registerForm.invalid || isSubmitting">
+        <ion-spinner *ngIf="isSubmitting" name="crescent"></ion-spinner>
+        <span>{{ isSubmitting ? 'Registrando...' : 'Crear cuenta' }}</span>
+      </ion-button>
+
+    </form>
+  </div>
+  
 </ion-content>

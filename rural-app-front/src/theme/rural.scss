@@ -1,0 +1,173 @@
+/* src/theme/rural.scss */
+
+/* ---------- Variables locales para componentes (mapeadas a Ionic) ---------- */
+$bg-soft: var(--ion-background-color);
+$text-dark: var(--ion-text-color);
+$text-muted: var(--ion-color-medium);
+$white: #ffffff;
+$danger: var(--ion-color-danger);
+
+/* Colores de marca (verde) */
+$green-dark: #2e5d34;
+$green: #4a8b52;
+$green-soft: #a8d5a2;
+
+/* ---------- Toolbar ---------- */
+.rural-toolbar {
+  --background: #{$green-dark};
+  --color: #{$white};
+  --min-height: 64px;
+  font-weight: 600;
+}
+
+/* ---------- Content base ---------- */
+.rural-content {
+  --background: #{$bg-soft}; /* Ahora reacciona al tema */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------- Hero ---------- */
+.rural-hero {
+  width: 100%;
+  padding: 32px 24px 56px;
+  text-align: center;
+  background: linear-gradient(160deg, $green-dark 0%, $green 100%);
+  color: $white;
+  border-radius: 0 0 32px 32px;
+  box-shadow: 0 8px 24px rgba(46, 93, 52, 0.25);
+
+  .hero-icon {
+    width: 72px;
+    height: 72px;
+    margin: 0 auto 16px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    backdrop-filter: blur(6px);
+
+    ion-icon {
+      font-size: 38px;
+      color: $green-soft;
+    }
+  }
+
+  h1, .hero-title {
+    margin: 0 0 6px;
+    font-size: 22px;
+    font-weight: 700;
+  }
+
+  p, .hero-subtitle {
+    margin: 0;
+    font-size: 14px;
+    opacity: 0.85;
+  }
+}
+
+/* ---------- Card ---------- */
+.rural-card {
+  background: var(--rural-card-bg); /* Nueva variable */
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  width: calc(100% - 32px);
+  max-width: 440px;
+  margin: -32px auto 32px;
+  padding: 24px 20px;
+
+  .card-title {
+    margin: 0 0 8px;
+    font-size: 18px;
+    font-weight: 700;
+    color: $text-dark;
+  }
+
+  .card-text, .hint {
+    margin: 0 0 20px;
+    font-size: 14px;
+    color: $text-muted;
+    line-height: 1.5;
+  }
+  .hint { margin: 14px 0 0; font-size: 12px; text-align: center; }
+}
+
+/* ---------- Formularios ---------- */
+.rural-field {
+  margin-bottom: 16px;
+  ion-text.error, .error {
+    display: block; padding: 4px 8px 0; font-size: 12px; color: $danger;
+  }
+}
+
+.rural-item {
+  --background: var(--rural-input-bg); /* Nueva variable */
+  --border-radius: 12px;
+  --padding-start: 12px;
+  --inner-padding-end: 12px;
+  --min-height: 56px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:focus-within {
+    border-color: $green;
+    box-shadow: 0 0 0 3px rgba(74, 139, 82, 0.15);
+  }
+
+  ion-input {
+    --color: #{$text-dark};
+    --placeholder-color: #{$text-muted};
+    font-size: 15px;
+  }
+
+  .field-icon {
+    color: $green; font-size: 20px; margin-right: 4px;
+  }
+}
+
+/* ---------- Botones ---------- */
+.rural-btn-primary {
+  --background: #{$green};
+  --background-hover: #{$green-dark};
+  --background-activated: #{$green-dark};
+  --border-radius: 12px;
+  --color: #{$white};
+  height: 52px;
+  margin-top: 8px;
+  font-weight: 600;
+  font-size: 16px;
+  text-transform: none;
+  box-shadow: 0 6px 16px rgba(74, 139, 82, 0.3);
+
+  &[disabled] { opacity: 0.5; box-shadow: none; }
+}
+
+/* ---------- Selector de Tema (Nuevo) ---------- */
+.theme-selector {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  
+  button {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    cursor: pointer;
+    transition: background 0.2s;
+    
+    &:hover { background: rgba(255, 255, 255, 0.4); }
+    ion-icon { font-size: 20px; }
+  }
+}
